@@ -3,24 +3,40 @@ import 'dart:convert';
 import 'dart:io';
 
 var allCompany = [];
+
+void listAllComapny(object){
+  var i = 0;
+  for (var element in object) {
+    element is Map;
+    print('$i: $element');
+  }
+}
 void main() {
 
   while(true){
 
     var newComapny = {};
-    print('Приветствую! Вы находитесь в тестовой программе по формированию счетов вашим контрагентам');
-    print('''Вы берите следующее действие:
-    1. Ввести нового контрагента в базу
-    2. Просмотреть всех контрагентов в базе
-    0. Выйти из программы
+    print('Greetings! You are in a test program for generating invoices for your counterparties');
+    print('''You take the following action:
+    1. Enter a new counterparty into the database
+    2. View all counterparties in the database
+    0. Exit the program
     ''');
 
     var user_choice = stdin.readLineSync(encoding: utf8);
     if (int.tryParse(user_choice!) == 0) break;
     else if (int.tryParse(user_choice) == 1){
-      print('Введите название компании');
+      print('Enter name company');
       var nameCompany = stdin.readLineSync(encoding: utf8);
       newComapny['name'] = nameCompany;
+
+      print('Enter VAT number company');
+      var vatCompany = stdin.readLineSync(encoding: utf8);
+      newComapny['vat'] = vatCompany;
+
+      print('Enter Email company');
+      var emailCompany = stdin.readLineSync(encoding: utf8);
+      newComapny['email'] = emailCompany;
       allCompany.add(newComapny);
 
     }
@@ -29,7 +45,7 @@ void main() {
         print('Список контрагентов пуст');
         sleep(Duration(seconds: 1));
       } else{
-        print(allCompany);
+        listAllComapny(allCompany);
       }
     }
     else{
