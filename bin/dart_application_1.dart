@@ -7,7 +7,6 @@ var allCompany = [];
 void listAllComapny(object){
   var i = 0;
   for (var element in object) {
-    element is Map;
     print('$i: $element');
   }
 }
