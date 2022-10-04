@@ -1,15 +1,22 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'company.dart';
 
 var allCompany = [];
 
+//function for view all company
 void listAllComapny(object){
   var i = 0;
   for (var element in object) {
     print('$i: $element');
   }
 }
+
+//function for give new variable for company
+//________________________________
+
+
 void main() {
 
   while(true){

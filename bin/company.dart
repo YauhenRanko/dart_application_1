@@ -2,9 +2,16 @@
 //first class
 
 class Company {
-  final String companyName;
-  final int companyVatNumber;
-  final String companyEmail;
+  String companyName;
+  int companyVatNumber;
+  String companyEmail;
 
-  Company(this.companyName, this.companyVatNumber, this.companyEmail);
+  Company(this.companyName, this.companyVatNumber, this.companyEmail,);
+
+  @override
+  String toString() {
+    return '$companyName $companyVatNumber $companyEmail';
+  }
 }
+
+
