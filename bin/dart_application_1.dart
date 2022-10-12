@@ -2,26 +2,23 @@
 import 'dart:convert';
 import 'dart:io';
 import 'company.dart';
+import 'package:sqlite3/sqlite3.dart';
 
-var allCompany = [];
 
-//function for view all company
-void listAllComapny(object){
-  var i = 0;
-  for (var element in object) {
-    print('$i: $element');
-  }
-}
+final db = sqlite3.open('db.db');
 
-//function for give new variable for company
-//________________________________
-
+  // db.execute('''
+  //   CREATE TABLE companies (
+  //     id INTEGER NOT NULL PRIMARY KEY,
+  //     name TEXT NOT NULL
+  //   );
+  // ''');
 
 void main() {
 
   while(true){
 
-    var newComapny = {};
+    // var newComapny = {};
     print('Greetings! You are in a test program for generating invoices for your counterparties');
     print('''You take the following action:
     1. Enter a new counterparty into the database
@@ -34,30 +31,30 @@ void main() {
     else if (int.tryParse(user_choice) == 1){
       print('Enter name company');
       var nameCompany = stdin.readLineSync(encoding: utf8);
-      newComapny['name'] = nameCompany;
 
       print('Enter VAT number company');
       var vatCompany = stdin.readLineSync(encoding: utf8);
-      newComapny['vat'] = vatCompany;
+      var vat = int.tryParse(vatCompany!);
 
       print('Enter Email company');
       var emailCompany = stdin.readLineSync(encoding: utf8);
-      newComapny['email'] = emailCompany;
-      allCompany.add(newComapny);
+
+      db.execute('INSERT INTO companies(name, vat, email) VALUES("$nameCompany", $vat, "$emailCompany" )' );
 
     }
     else if (int.tryParse(user_choice!) == 2){
-      if (allCompany.isEmpty) {
+      final ResultSet resultSet = db.select('SELECT * FROM companies');
+      if (resultSet.isEmpty) {
         print('Список контрагентов пуст');
         sleep(Duration(seconds: 1));
       } else{
-        listAllComapny(allCompany);
+          resultSet.forEach((element) {
+          print(element);
+          });
+        }   
       }
-    }
-    else{
+      else{
       false;
-    };
-
+      };
     }
-
   }
