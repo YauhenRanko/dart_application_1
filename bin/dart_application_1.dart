@@ -5,18 +5,26 @@ import 'company.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 
-final db = sqlite3.open('db.db');
-
-  // db.execute('''
-  //   CREATE TABLE companies (
-  //     id INTEGER NOT NULL PRIMARY KEY,
-  //     name TEXT NOT NULL
-  //   );
-  // ''');
-
 void main() {
+  
 
   while(true){
+
+    final db = sqlite3.open('db.db');
+
+    try {
+      db.select('SELECT * FROM companies');
+    } on SqliteException{
+        db.execute('''
+          CREATE TABLE "companies" (
+            "id"	INTEGER NOT NULL,
+            "name"	TEXT NOT NULL,
+            "vat"	INTEGER NOT NULL,
+            "email"	TEXT NOT NULL,
+            PRIMARY KEY("id" AUTOINCREMENT)
+          );
+          ''');
+    };
 
     // var newComapny = {};
     print('Greetings! You are in a test program for generating invoices for your counterparties');
@@ -45,7 +53,7 @@ void main() {
     else if (int.tryParse(user_choice!) == 2){
       final ResultSet resultSet = db.select('SELECT * FROM companies');
       if (resultSet.isEmpty) {
-        print('Список контрагентов пуст');
+        print('The list of counterparties is empty');
         sleep(Duration(seconds: 1));
       } else{
           resultSet.forEach((element) {
